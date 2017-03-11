@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Dettaglio Piatto</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+
+<ion-card>
+
+<img [src]="item.downloadURL | async" >
+
+  <ion-card-content>
+    <ion-card-title>
+      {{item.nomePiatto}}
+      </ion-card-title>
+    <p>
+{{item.ricetta}}
+    </p>
+  </ion-card-content>
+</ion-card>
+
+<ion-grid>
+ <ion-row >
+  <ion-col width-33 text-center>
+<button ion-button icon-only color="secondary" (click)="add()">
+  <ion-icon name="add" ></ion-icon>
+</button>
+  </ion-col>
+
+  <ion-col width-33 text-center><p>{{quantity}} </p></ion-col>
+
+ <ion-col width-33 text-center >
+<button ion-button icon-only color="danger" (click)="remove()">
+  <ion-icon name="remove" ></ion-icon>
+</button>
+  </ion-col>
+</ion-row>
+</ion-grid> 
+
+<ion-list>
+
+  <ion-list-header>
+     <h2>Costo:</h2> 
+  </ion-list-header>
+
+  <ion-item>
+    <h2>Costo singolo</h2>
+    <h2 item-right>{{item.prezzo}} CHF</h2>
+  </ion-item>
+
+  <ion-item>
+    <h2>Quantità</h2>
+    <h2 item-right >{{quantity}}</h2>
+  </ion-item>
+
+  <ion-item>
+    <h2>Costo Totale</h2>
+    <h2 item-right style="color: #00C200;">{{quantity*item.prezzo}} CHF</h2>
+  </ion-item>
+
+</ion-list>
+
+
+<button ion-button full (click)="aggiungiAlCarrello(item, quantity)">Aggiungi al carrello</button>
+
+</ion-content>

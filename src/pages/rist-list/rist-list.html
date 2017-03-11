@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Ristoranti</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+<ion-list>
+  <ion-item *ngFor = "let item of ristoranteList | async">
+    <ion-thumbnail item-left>
+      <img *ngIf="loading"  src="/assets/6.gif" alt="loading" style="max-width:20px;max-height:20px;"/>
+      <img [hidden]="loading" (load)="onLoad()" [src]="item.downloadURL | async" style="max-width:167px;max-height:100px;">
+    </ion-thumbnail>
+    <h2>{{item.nome}}</h2>
+    <p>{{item.indirizzo}}</p>
+    <button ion-button clear item-right (click)="apriDettaglio(item)">View</button>
+  </ion-item>
+</ion-list>
+
+</ion-content>

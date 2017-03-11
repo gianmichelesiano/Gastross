@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Dettaglio Ristoranti</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+
+<ion-card>
+
+<img [src]="item.downloadURL | async" >
+
+  <ion-card-content>
+    <ion-card-title>
+      {{item.nome}}
+      </ion-card-title>
+    <p>
+{{item.indirizzo}}
+    </p>
+  </ion-card-content>
+</ion-card> 
+
+<ion-grid>
+ <ion-row>
+  <ion-col width-33><button ion-button color="danger" style="width:100%" (click)="apriMenu(item)">Menù</button></ion-col>
+  <ion-col width-33><button ion-button  style="width:100%" (click)="apriInfo(item)">Info</button></ion-col>
+  <ion-col width-33><button ion-button color="secondary" style="width:100%" (click)="apriRecensioni(item)">Recensioni</button></ion-col>
+</ion-row>
+</ion-grid>
+
+
+
+
+
+</ion-content>
+
+

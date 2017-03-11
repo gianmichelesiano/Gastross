@@ -1,0 +1,29 @@
+<!--
+  Generated template for the Recensioni page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>recensioni</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<ion-list>
+  <ion-item *ngFor = "let item of recensioni ">
+    <ion-avatar item-left>
+      <img [src]="item.avatar" >
+    </ion-avatar>
+    <h2>{{item.nome}}</h2>
+    <h3>{{item.titolo}}!</h3>
+    <p>{{item.descrizione}}</p>
+    <rating [(ngModel)]="item.stelle"  readOnly="true"></rating>
+  </ion-item>
+
+</ion-list>
+</ion-content>

@@ -1,0 +1,51 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>info</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+
+
+<ion-content padding>
+
+<ion-list>
+
+  <ion-list-header>
+     <h2>Informazioni: {{item.nome}}</h2> 
+  </ion-list-header>
+
+  <ion-item>
+    <h2>Cucina</h2>
+    <h2 item-right>{{item.tipologia}}</h2>
+  </ion-item>
+
+  <ion-item>
+    <h2>Stato</h2>
+    <h2 item-right style="color: #00C200;">{{stato}}</h2>
+  </ion-item>
+
+  <ion-item>
+    <h2>Costo consegna</h2>
+    <h2 item-right>{{item.costoConsegna}} CHF</h2>
+  </ion-item>
+
+
+  <ion-item>
+    <h2>Max tempo di consegna</h2>
+    <h2 item-right style="color: #E34A33;">{{item.maxTempoConsegna}} minuti</h2>
+  </ion-item>
+
+
+ <ion-item>
+    <h2>Ordime minimo</h2>
+    <h2 item-right>{{item.ordineMin}} CHF</h2>
+  </ion-item>
+
+
+
+</ion-list>
+
+</ion-content>
