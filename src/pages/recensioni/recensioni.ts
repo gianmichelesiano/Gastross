@@ -20,7 +20,7 @@ export class RecensioniPage {
   	 this.recensioni = [
   	 	{
   	 	  nome: 'Marco',
-  	 	  avatar: "/assets/avatar/m.png",
+  	 	  avatar: "assets/avatar/m.png",
   	 	  titolo: 'Fantastico',
           descrizione:"Servizio veramente eccezionale",
   	 	  stelle:5,
@@ -28,7 +28,7 @@ export class RecensioniPage {
   	 	},
   	 	{
   	 	  nome: 'Maria',
-  	 	  avatar: "/assets/avatar/f.png",
+  	 	  avatar: "assets/avatar/f.png",
   	 	  titolo: 'Interessante',
   	 	  descrizione: 'Mi aspettavo qualcosa di meglio sopratutto per quello che dicevano',
   	 	  stelle:3,

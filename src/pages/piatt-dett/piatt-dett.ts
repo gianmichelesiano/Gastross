@@ -41,7 +41,7 @@ export class PiattDettPage {
 
     if(this.auth.isAuthenticated()) {
           this.carrello = this.af.database.list('/carrello/'+this.user.id);
-          this.carrello.push({ key:item.$key, nomePiatto:item.nomePiatto, prezzo:item.prezzo, path:item.path,quantity:quantity }).then((item) => { console.log(item.key); });          
+          this.carrello.push({ key:item.$key, nomePiatto:item.nomePiatto, idRistorante:item.idRistorante, prezzo:item.prezzo, path:item.path,quantity:quantity }).then((item) => { console.log(item.key); });          
           this.navCtrl.push(CarrelloPage)
     } else {
           let alert = this.alertCtrl.create({

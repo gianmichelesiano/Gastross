@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
+  <ion-navbar color="danger">
+    <button ion-button  menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Ordini</ion-title>
@@ -8,5 +8,17 @@
 </ion-header>
 
 <ion-content >
-Ordini
+
+<ion-list>
+  <ion-item *ngFor = "let item of ordini | async">
+
+    <h2>Ordine del:</h2>
+    <p>{{item.data *1000 | date:'short'}}</p>
+    <p *ngIf="item.consegnato == 0" color="danger">Da consegnare</p>
+    <p *ngIf="item.consegnato == 1" color="secondary">Consegnato</p>
+    <button ion-button clear item-right (click)="apriDettaglioOrdine(item.$key)">Dettaglio</button>
+
+  </ion-item>
+</ion-list>
+:
 </ion-content>

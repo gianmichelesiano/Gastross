@@ -6,6 +6,9 @@ import 'rxjs/add/operator/map';
 import * as firebase from 'firebase'
 import {RistDettPage} from '../rist-dett/rist-dett'
 
+import {ImageLazyLoadModule, WebWorkerService} from 'ng2-image-lazy-load';
+WebWorkerService.enabled = true;
+
 interface Ristorante {
     $key?: string;
     nome:string;
@@ -26,6 +29,8 @@ interface Ristorante {
 export class RistListPage {
 
   totale:number=0
+  
+
 
   loading: boolean = true
   ristoranti: FirebaseListObservable<any>;
@@ -36,6 +41,8 @@ export class RistListPage {
   	 let storage = firebase.storage();
      this.ristoranti = af.database.list('/ristoranti');
      console.log(this.ristoranti)
+
+
 
     this.ristoranteList = this.ristoranti.map( itemList =>
         itemList.map( item => {

@@ -11,6 +11,7 @@ import * as firebase from 'firebase'
 interface Piatto {
     $key?: string;
     nomePiatto:string;
+    idRistorante:string;
     tipologiaPiatto:string;
     ricetta:string;
     prezzo:string;
@@ -41,7 +42,7 @@ export class MenuPage {
     this.piattiList = this.menu.map( itemList =>
         itemList.map( item => {
             var pathReference = storage.ref(item.path);
-            let result = {$key: item.$key, downloadURL: pathReference.getDownloadURL(), path: item.path, nomePiatto: item.nomePiatto, tipologiaPiatto: item.tipologiaPiatto, ricetta: item.ricetta, prezzo: item.prezzo};
+            let result = {$key: item.$key, downloadURL: pathReference.getDownloadURL(), idRistorante:this.idRistorante,  path: item.path, nomePiatto: item.nomePiatto, tipologiaPiatto: item.tipologiaPiatto, ricetta: item.ricetta, prezzo: item.prezzo};
             console.log(result);
             return result;
         })

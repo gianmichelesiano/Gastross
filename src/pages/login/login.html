@@ -6,19 +6,22 @@
 -->
 <ion-header>
 
-  <ion-navbar color="secondary">
+  <ion-navbar color="danger">
     <ion-title>Login/Registerazione</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
-	<div >
-	   <img src="assets/icon/icon.png"  class="center"/>
-	</div>
-
+<ion-content class="login-content" padding>
+  <ion-row class="logo-row">
+    <ion-col></ion-col>
+    <ion-col width-67>
+       <img src="assets/icon/icon2.png" />
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+  <div class="login-box">
 
   <div *ngIf="showLogin">
     <ion-item>
@@ -29,13 +32,12 @@
       <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
     </ion-item>
 
-	  <button ion-button color="secondary" full (click)="doLogin()" >Login</button>
-	  <p>Se non hai un account:</p>
-	  <button ion-button color="primary"  (click)="doRegister()">Registrati</button>
+    <button ion-button color="dark" full (click)="doLogin()" >Login</button>
+    <p>Se non hai un account:</p>
+    <button ion-button color="danger"  (click)="doRegister()">Registrati</button>
   </div>
 
   <div *ngIf="!showLogin">
-
     <ion-item>
       <ion-input type="text" placeholder="Nome" [(ngModel)]="name"></ion-input>
     </ion-item>
@@ -50,4 +52,5 @@
     <button ion-button color="secondary" full (click)="doRegister()">Registrati</button>
   </div>
 
+  </div>
 </ion-content>

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -8,5 +8,18 @@
 </ion-header>
 
 <ion-content >
-Dettaglio ordine
+
+
+ <ion-list>
+    <ion-list-header>
+      Il tuo ordine
+    </ion-list-header>
+    <ion-item *ngFor = "let item of ordineLista | async">
+        <h2>{{item.nomePiatto}}</h2>
+        <p>{{item.prezzo | number: '.2'}}</p>
+        <p>{{item.quantity| number: '.2'}}</p>
+       
+    </ion-item>
+ </ion-list>
+
 </ion-content>

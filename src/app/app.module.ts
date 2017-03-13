@@ -2,9 +2,10 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { AngularFireModule } from 'angularfire2';
-import {ImageLazyLoadModule, WebWorkerService} from 'ng2-image-lazy-load';
+
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+import { LOCALE_ID } from '@angular/core';
 
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
@@ -26,6 +27,8 @@ import { LogoutPage } from '../pages/logout/logout';
 import {MenuPage } from '../pages/menu/menu'
 import {InfoPage } from '../pages/info/info'
 import {RecensioniPage } from '../pages/recensioni/recensioni'
+import { LazyLoadImageModule } from 'ng2-lazyload-image';
+import { IonicImageLoader } from 'ionic-image-loader';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -67,8 +70,9 @@ export const firebaseConfig = {
   imports: [
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    ImageLazyLoadModule,
+    LazyLoadImageModule,
     Ionic2RatingModule,
+    IonicImageLoader,
     CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
@@ -94,6 +98,9 @@ export const firebaseConfig = {
     InfoPage,
     RecensioniPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [
+              {provide: ErrorHandler, useClass: IonicErrorHandler},
+              { provide: LOCALE_ID, useValue: "it-IT" }
+             ]
 })
 export class AppModule {}

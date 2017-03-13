@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-
+import { AngularFire, FirebaseListObservable  } from 'angularfire2';
+import { User } from '@ionic/cloud-angular';
+import {OrdDettPage} from '../ord-dett/ord-dett'
 /*
   Generated class for the OrdList page.
 
@@ -12,8 +14,22 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'ord-list.html'
 })
 export class OrdListPage {
+  ordini: FirebaseListObservable<any>;
+  constructor(public af: AngularFire, public user: User, public navCtrl: NavController, public navParams: NavParams) {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  	this.ordini = this.af.database.list('/ordini' , {
+  		  query: {
+		    orderByChild: 'idCliente',
+		    equalTo: this.user.id 
+		  }
+  	});
+
+
+  }
+
+  apriDettaglioOrdine(key){
+  	this.navCtrl.push(OrdDettPage,  { key:key });
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OrdListPage');

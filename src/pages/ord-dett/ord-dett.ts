@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { AngularFire, FirebaseListObservable  } from 'angularfire2';
 
 /*
   Generated class for the OrdDett page.
@@ -12,8 +13,14 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'ord-dett.html'
 })
 export class OrdDettPage {
+  ordineLista: FirebaseListObservable<any>;
+  key:any
+  constructor(public af: AngularFire, public navCtrl: NavController, public navParams: NavParams) {
+  	this.key = navParams.get('key')
+  	console.log(this.key)
+  	this.ordineLista = this.af.database.list('/ordini/'+this.key+'/ordine')
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad OrdDettPage');

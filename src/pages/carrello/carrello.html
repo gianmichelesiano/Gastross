@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -23,7 +23,7 @@
         <h2>{{item.nomePiatto}}</h2>
         <p>{{item.prezzo | number: '.2'}}</p>
         <p>{{item.quantity| number: '.2'}}</p>
-        <p>{{item.quantity*item.prezzo | number: '.2' }}</p>
+        
 
       </ion-item>
       <ion-item-options>
@@ -33,12 +33,47 @@
         </button>
       </ion-item-options>
     </ion-item-sliding>
-
-
-
- 
-
  </ion-list>
+
+<ion-list>
+  <ion-item>
+    <h2>Costo Totale</h2>
+    <h2 item-right style="color: #00C200;">{{totaleFin | async | number: '.2'}} CHF</h2>
+  </ion-item>
+
+</ion-list>
+
+
+
+<ion-grid>
+ <ion-row>
+  <ion-col width-50><button ion-button color="warning" style="width:100%" (click)="aggiungi()">Aggiungi</button></ion-col>
+  <ion-col width-50><button ion-button style="width:100%" color="light" (click)="svuota()">Svuota</button></ion-col>
+</ion-row>
+</ion-grid>
+
+
+
+
+<ion-list radio-group [(ngModel)]="radioValue">
+  <ion-list-header>
+    Pagamento
+  </ion-list-header>
+
+  <ion-item>
+    <ion-label>Carta di credito</ion-label>
+    <ion-radio checked="true" value="carta" checked=true></ion-radio>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Contanti</ion-label>
+    <ion-radio value="contanti"></ion-radio>
+  </ion-item>
+</ion-list>
+
+      <button ion-button full color="danger" (click)="ordina(radioValue)">Ordina</button>
+  
+
 
 
 </ion-content>

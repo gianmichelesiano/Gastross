@@ -44,20 +44,14 @@ export class MyApp {
 
     // set our app's pages
     this.pages = [
-      { title: 'Hello Ionic', component: HelloIonicPage },
-      { title: 'My First List', component: ListPage },
+      { title: 'Home', component: HelloIonicPage },
       { title: 'Ristoranti', component: RistListPage },
-      { title: 'Dettaglio Ristoranti', component: RistDettPage },
-      { title: 'Piatti', component: PiattListPage },
-      { title: 'Piatto Dettaglio', component: PiattDettPage },
       { title: 'Ordini', component: OrdListPage },
-      { title: 'Ordine Dettaglio', component: OrdDettPage },
-      { title: 'Offerte', component: OffertePage },
-      { title: 'Impostazioni', component: ImpostazioniPage },
       { title: 'Carrello', component: CarrelloPage },
+      { title: 'Offerte', component: OffertePage },
+      { title: 'Impostazioni', component: ImpostazioniPage },  
       { title: 'Chat', component: ChatPage },
       { title: 'Intro', component: IntroPage },
-      { title: 'Login', component: LoginPage },
       { title: 'Logout', component: LogoutPage },
     ];
   }
