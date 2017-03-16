@@ -1,20 +1,23 @@
 <ion-header>
   <ion-navbar color="danger">
-    <button ion-button menuToggle >
+    <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Ristoranti</ion-title>
+    <button  ion-button menuToggle="right" end>
+      <ion-icon name="options"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
+
 
 <ion-content>
 
 <ion-list>
   <ion-item *ngFor = "let item of ristoranteList | async">
     <ion-thumbnail item-left>
-
-
-      <img-loader [spinner]=true [src]="item.downloadURL | async" useImg></img-loader>
+      <ion-spinner *ngIf="loading"></ion-spinner>
+      <img [hidden]="loading" (load)="onLoad()" [src]="item.downloadURL | async" />
     </ion-thumbnail>
     <h2>{{item.nome}}</h2>
     <p>{{item.indirizzo}}</p>

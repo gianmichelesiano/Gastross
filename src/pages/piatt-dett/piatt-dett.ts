@@ -40,9 +40,20 @@ export class PiattDettPage {
   aggiungiAlCarrello(item, quantity){
 
     if(this.auth.isAuthenticated()) {
+        console.log(item)
           this.carrello = this.af.database.list('/carrello/'+this.user.id);
-          this.carrello.push({ key:item.$key, nomePiatto:item.nomePiatto, idRistorante:item.idRistorante, prezzo:item.prezzo, path:item.path,quantity:quantity }).then((item) => { console.log(item.key); });          
-          this.navCtrl.push(CarrelloPage)
+          this.carrello.push({ 
+                          //key:item.$key,
+                          nomePiatto:item.nomePiatto, 
+                          idRistorante:item.idRistorante, 
+                          prezzo:item.prezzo, 
+                          path:item.path,
+                          quantity:quantity,
+                          nomeRistorante:item.nomeRistorante,
+                          prezzoOfferta:item.prezzoOfferta,
+                          inOfferta:item.inOfferta,
+                        }).then((item) => { console.log(item.key); });          
+          this.navCtrl.setRoot(CarrelloPage)
     } else {
           let alert = this.alertCtrl.create({
           title: 'Attenzione!',
@@ -50,7 +61,7 @@ export class PiattDettPage {
           buttons: ['OK']
           });
           alert.present();
-          this.navCtrl.push(LoginPage)
+          this.navCtrl.setRoot(LoginPage)
 
     }
 

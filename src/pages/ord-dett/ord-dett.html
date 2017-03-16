@@ -4,22 +4,32 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Dettaglio ordine</ion-title>
+    <button  ion-button menuToggle="right" end>
+      <ion-icon name="options"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
+
 
 <ion-content >
 
 
- <ion-list>
-    <ion-list-header>
-      Il tuo ordine
-    </ion-list-header>
-    <ion-item *ngFor = "let item of ordineLista | async">
-        <h2>{{item.nomePiatto}}</h2>
-        <p>{{item.prezzo | number: '.2'}}</p>
-        <p>{{item.quantity| number: '.2'}}</p>
-       
-    </ion-item>
- </ion-list>
+<ion-list>
+  <ion-item *ngFor = "let item of ordineDettaglioConFoto | async">
+    <ion-thumbnail item-left>
+      <ion-spinner *ngIf="loading"></ion-spinner>
+      <img [hidden]="loading" (load)="onLoad()" [src]="item.downloadURL | async" />
+    </ion-thumbnail>
+    <ion-badge *ngIf="item.inOfferta" color="secondary">Offerta</ion-badge>
+    <h2>{{item.nomePiatto}}</h2>
+    <p>{{item.nomeRistorante}}</p>
+    <p *ngIf="!item.inOfferta">{{item.prezzo| number : '1.2-2'}} CHF</p>
+    <del *ngIf="item.inOfferta">{{item.prezzo| number : '1.2-2'}} CHF</del>
+    <p *ngIf="item.inOfferta">{{item.prezzoOfferta| number : '1.2-2'}} CHF</p>
+    <p >{{item.quantity}}</p>
+  </ion-item>
+</ion-list>
 
 </ion-content>
+
+

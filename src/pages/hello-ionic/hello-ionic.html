@@ -4,23 +4,25 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Home</ion-title>
+    <button  ion-button menuToggle="right" end>
+      <ion-icon name="options"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
 
-  <h3>Benventuto in Gastross!</h3>
-
-  <p>
-    Demo Applicazione
+<ion-content padding class="getstart">
+  <h3 style="color: #FFF;">{{ 'BENVENUTO' | translate }} in Gastross!</h3>
+  <p style="color: #FFF;">
+    Applicazione Demo
   </p>
 
-  <p>
+  <p style="color: #FFF;">
     I dati utilizzati sono puramente di esempio e vengono utilizzati solo per una dimostrazione
   </p>
-  <p>
-    <button ion-button color="dark" (click)="ordina()">Ordina 
+  <p align="center">
+    <button ion-button color="secondary" (click)="ordina()">{{ 'ORDINA' | translate }} 
     </button>
   </p>
 

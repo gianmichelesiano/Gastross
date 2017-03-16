@@ -1,0 +1,11 @@
+{
+    "key" : "Übersetzung für Key",   
+    "HELLO": "Gruentzi",
+    "BENVENUTO": "Willkommen",
+    "ORDINA": "Bestellen",
+    "nested": {    
+        "user": "Benutzer",
+        "signIn": "Einloggen",
+        "signUp": "Registrieren"
+    }
+}

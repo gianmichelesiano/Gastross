@@ -3,12 +3,15 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Dettaglio Piatto</ion-title>
+    <ion-title>Info piatto</ion-title>
+    <button  ion-button menuToggle="right" end>
+      <ion-icon name="options"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
 
-<ion-content >
 
+<ion-content >
 <ion-card>
 
 <img [src]="item.downloadURL | async" >
@@ -19,6 +22,9 @@
       </ion-card-title>
     <p>
 {{item.ricetta}}
+    </p>
+        <p>
+Offerta termina il: {{item.dataScadenza | date}}
     </p>
   </ion-card-content>
 </ion-card>
@@ -42,29 +48,44 @@
 </ion-grid> 
 
 <ion-list>
-
   <ion-list-header>
      <h2>Costo:</h2> 
   </ion-list-header>
 
-  <ion-item>
+
+  <ion-item *ngIf="!item.inOfferta">
     <h2>Costo singolo</h2>
-    <h2 item-right>{{item.prezzo}} CHF</h2>
+    <h2 item-right>{{item.prezzo | number : '1.2-2'}} CHF</h2>
   </ion-item>
+  <ion-item *ngIf="item.inOfferta">
+    <h2>Costo singolo</h2>
+    <del item-right>{{item.prezzo | number : '1.2-2'}} CHF</del>
+  </ion-item>
+  <ion-item *ngIf="item.inOfferta">
+    <h2>Costo In offerta</h2>
+    <h2 item-right>{{item.prezzoOfferta | number : '1.2-2'}} CHF</h2>
+  </ion-item>
+
+
 
   <ion-item>
     <h2>Quantità</h2>
     <h2 item-right >{{quantity}}</h2>
   </ion-item>
 
-  <ion-item>
+
+  <ion-item *ngIf="!item.inOfferta">
     <h2>Costo Totale</h2>
-    <h2 item-right style="color: #00C200;">{{quantity*item.prezzo}} CHF</h2>
+    <h2 item-right style="color: #00C200;">{{quantity*item.prezzo | number : '1.2-2'}} CHF</h2>
+  </ion-item>
+  <ion-item *ngIf="item.inOfferta">
+    <h2>Costo Totale</h2>
+    <h2 item-right style="color: #00C200;">{{quantity*item.prezzoOfferta | number : '1.2-2'}} CHF</h2>
   </ion-item>
 
+  <button  ion-button full (click)="aggiungiAlCarrello(item, quantity)">Aggiungi al carrello</button>
 </ion-list>
 
 
-<button ion-button full (click)="aggiungiAlCarrello(item, quantity)">Aggiungi al carrello</button>
 
 </ion-content>

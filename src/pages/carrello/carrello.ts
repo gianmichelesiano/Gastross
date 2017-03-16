@@ -12,79 +12,90 @@ import {RistListPage} from '../rist-list/rist-list'
 import {HelloIonicPage} from '../hello-ionic/hello-ionic'
 import {OrdListPage} from '../ord-list/ord-list'
 
-
-
+import { OrdineContantiPage } from '../ordine-contanti/ordine-contanti';
+import { OrdineCartaPage } from '../ordine-carta/ordine-carta';
 
 
 interface Ordine {
     $key?: string;
-    key:string;
     nomePiatto:string;
-    quantity:string;
+    idRistorante:string;
+    nomeRistorante:string;
+    tipologiaPiatto:string;
+    ricetta:string;
     prezzo:string;
     downloadURL?: string;
-    path: string;  
+    path: string; 
+    inOfferta:boolean;
+    prezzoOfferta: string; 
 }
+
 
 @Component({
   selector: 'page-carrello',
   templateUrl: 'carrello.html'
 })
 export class CarrelloPage {
-	item:any
-	quantity:number
-	loading: boolean = true
-	total:number=0
 
+  item:any
+  quantity:number
+  loading: boolean = true
+  total:number=0
   carrello: FirebaseListObservable<any>;
   carrelloObject: FirebaseListObservable<any>;
-  
   ordini: FirebaseListObservable<any>;
+
+  carrelloSnap: FirebaseObjectObservable<any>;
+
   ordineList : Observable<Ordine[]>;
   cartTotal: Observable<any>;
   oggettoTotale: FirebaseObjectObservable<any>;
   totaleFin:Observable<number>
 
 
+  totale : number = 0
   constructor(public alertCtrl: AlertController, public user: User, public af: AngularFire, public navCtrl: NavController, public navParams: NavParams) {
-		let storage = firebase.storage();
-		this.carrello = this.af.database.list('/carrello/'+this.user.id);
+    let storage = firebase.storage();
+    this.carrello = this.af.database.list('/carrello/'+this.user.id);
 
 
-		this.ordineList = this.carrello.map( itemList =>
+    this.ordineList = this.carrello.map( itemList =>
         itemList.map( item => {
-
             var pathReference = storage.ref(item.path);
-            let result = {$key: item.$key, 
-            			  downloadURL: pathReference.getDownloadURL(), 
-            			  path: item.path, 
-            			  nomePiatto: item.nomePiatto, 
-            			  quantity: item.quantity, 
-            			  prezzo: item.prezzo};
-            console.log("result");
-            console.log(result);
-            return result;
-        })
-    );
-
-
-
-
-
-    this.cartTotal = this.carrello.map( itemList =>
-        itemList.map( item => {
             let result = {
-                    totale: item.prezzo*item.quantity
-                    };
+                    $key: item.$key, 
+                    downloadURL: pathReference.getDownloadURL(), 
+                    path: item.path, 
+                    nomePiatto: item.nomePiatto, 
+                    quantity: item.quantity, 
+                    prezzo: item.prezzo,
+                    nomeRistorante: item.nomeRistorante,
+                    inOfferta: item.inOfferta,
+                    prezzoOfferta: item.prezzoOfferta
+                  };
             return result;
         })
     );
-
-    this.totaleFin = this.cartTotal
-                .map(arr => arr.reduce((a, b) => a + b.totale, 0));
 
 
     
+    //Calcolo Totale
+    this.carrelloSnap = af.database.object('/carrello/'+this.user.id, { preserveSnapshot: true });
+    this.carrelloSnap.subscribe(snapshot => {
+        let listaPiatti = snapshot.val()
+        for (var key in listaPiatti) {
+            let quantity = listaPiatti[key]['quantity']
+            let prezzo = listaPiatti[key]['prezzo']
+            let inOfferta = listaPiatti[key]['inOfferta']
+            if (inOfferta) {
+              prezzo = listaPiatti[key]['prezzoOfferta']
+            }
+            this.totale = this.totale +quantity*prezzo
+        }
+    });
+
+
+   
   }
 
   ionViewDidLoad() {
@@ -99,9 +110,8 @@ export class CarrelloPage {
     this.carrello.remove(key); 
   }
 
-  aggiungi() {    
-    this.navCtrl.push(RistListPage);
-    console.log('aggiungi');  
+  aggiungi() {
+    this.navCtrl.setRoot(RistListPage)
   }
 
   svuota(){
@@ -112,83 +122,68 @@ export class CarrelloPage {
       buttons: ['OK']
     });
    alert.present();
-   this.navCtrl.push(HelloIonicPage);
+   this.navCtrl.setRoot(HelloIonicPage)
   }
 
-  ordina(radioValue) {
-    //this.navCtrl.push(RistListPage);    
-    console.log(radioValue);
-    if (typeof radioValue == 'undefined') {
-           let alert = this.alertCtrl.create({
+  ordina(radioValue, totale) {
+     console.log(totale)
+     if (radioValue == 'contanti'){
+            this.creaOrdine(OrdineContantiPage, totale)
+      } else if (radioValue == 'carta'){
+            this.creaOrdine(OrdineCartaPage, totale)
+      } else {
+          let alert = this.alertCtrl.create({
             title: 'Aggiungi un metodo di pagamento!',
             subTitle: 'Per favore scelga tra uno disponibile!',
             buttons: ['OK']
           });
           alert.present(); 
-     } 
+      }
+  }
 
-     if (radioValue == 'contanti'){
-         //this.navCtrl.push(OrdListPage);
 
+
+  creaOrdine(Page, totale){
+         let idOrdine = ''
          var data = Math.floor(Date.now() / 1000)
-  
-         let pronto = 0;
-         let consegnato = 0;
+         let pagato = false;
+         let stato = 0;
 
          // inizia lo staorege dell'ordine
-         this.af.database.list('/ordini/').push({
-                                               idCliente:this.user.id,
-                                               pronto:pronto,
-                                               consegnato: consegnato,
-                                               data:data
+         this.af.database.list('/ordini/'+this.user.id).push({
+                                               stato:stato,
+                                               data:data,
+                                               totale:totale,
+                                               pagato:pagato
+                                    
           }).then((ordine) => { 
 
-         this.ordineList = this.carrello.map( itemList =>
-              itemList.map( item => {
-                  let result = {
-                          idPiatto:item.$key,
-                          idRistorante:item.idRistorante,
-                          path: item.path, 
-                          nomePiatto: item.nomePiatto, 
-                          quantity: item.quantity, 
-                          prezzo: item.prezzo,
+            this.ordineList = this.carrello.map( itemList =>
+                  itemList.map( item => {
+                      let result = {
+                              idPiatto:item.$key,
+                              idRistorante:item.idRistorante,
+                              path: item.path, 
+                              nomePiatto: item.nomePiatto, 
+                              quantity: item.quantity, 
+                              prezzo: item.prezzo,
+                              nomeRistorante: item.nomeRistorante,
+                              inOfferta: item.inOfferta,
+                              prezzoOfferta: item.prezzoOfferta
+                      };
+                      idOrdine = ordine.key
+                      this.af.database.list('/ordini/'+this.user.id+'/'+ordine.key+'/ordine').push(result)
+                      return result;
 
 
-                  };
-                  this.af.database.list('/ordini/'+ordine.key+'/ordine').push(result)
-                  console.log("dsfds");
-                  console.log(result);
+                  })
+            ); // fine ordineList
 
-                  let comanda = {
-                          idPiatto:item.$key,
-                          idCliente:this.user.id,
-                          idOrdine:ordine.key,
-                          path: item.path, 
-                          nomePiatto: item.nomePiatto, 
-                          quantity: item.quantity, 
-                          data: data,
-                          pronto:pronto,
-                          consegnato: consegnato,
-                          prezzo: item.prezzo,
-                  };
-                  this.af.database.list('/comande/'+item.idRistorante).push(comanda)
-                  
+            this.navCtrl.push(Page, {totale:totale, idCliente:this.user.id, idOrdine:ordine.key, data:data}); 
 
-                  return result;
-              })
-          )
-
-          });
-          
-         //this.navCtrl.setRoot(OrdListPage); 
-     }
-
-     //this.af.database.list('/carrello/').remove(this.user.id)
-     //this.navCtrl.setRoot(OrdListPage); 
-     
-      
-
+          })
   }
+
 
 
 

@@ -13,10 +13,43 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class ChatPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  chats: any
+
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+
+  	 this.chats = [
+  	 	{
+  	 	  nome: 'Marco',
+  	 	  avatar: "assets/avatar/m.png",
+  	 	  titolo: 'Quando è pronto il mio ordine?',
+          descrizione:"Quando è pronto il mio ordine?",
+  	 	  data : Math.floor(Date.now() / 1000)
+  	 	},
+  	 	{
+  	 	  nome: 'Maria',
+  	 	  avatar: "assets/avatar/f.png",
+  	 	  titolo: 'Interessante',
+  	 	  descrizione: "E' appena partita la consegna",
+  	 	  data : Math.floor(Date.now() / 1000)
+  	 	}
+  	 ] 
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage');
+  }
+
+  send(chatBox){
+  	let buovo  =   	 	{
+  	 	  nome: 'Marco',
+  	 	  avatar: "assets/avatar/m.png",
+  	 	  titolo: 'Quando è pronto il mio ordine?',
+          descrizione:chatBox,
+  	 	  data : Math.floor(Date.now() / 1000)
+  	 	}
+  	this.chats.push(buovo)
+  	console.log(chatBox)
+  	return this.chats
   }
 
 }

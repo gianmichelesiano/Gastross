@@ -17,15 +17,9 @@ export class OrdListPage {
   ordini: FirebaseListObservable<any>;
   constructor(public af: AngularFire, public user: User, public navCtrl: NavController, public navParams: NavParams) {
 
-  	this.ordini = this.af.database.list('/ordini' , {
-  		  query: {
-		    orderByChild: 'idCliente',
-		    equalTo: this.user.id 
-		  }
-  	});
-
-
-  }
+  	this.ordini = this.af.database.list('/ordini/'+this.user.id ).
+            map((array) => array.reverse()) as FirebaseListObservable<any[]>;
+   }
 
   apriDettaglioOrdine(key){
   	this.navCtrl.push(OrdDettPage,  { key:key });

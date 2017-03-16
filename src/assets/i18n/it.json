@@ -1,0 +1,11 @@
+{
+    "key" : "Traduzione per chiave",   
+    "HELLO": "Salutamm",
+    "BENVENUTO": "Benvenuto",
+    "ORDINA": "Ordina",
+    "nested": {    
+        "user": "Utente",
+        "signIn": "Entra",
+        "signUp": "Registrati"
+    }
+}

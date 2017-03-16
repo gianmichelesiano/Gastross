@@ -1,24 +1,38 @@
 <ion-header>
   <ion-navbar color="danger">
-    <button ion-button  menuToggle>
+    <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Ordini</ion-title>
+    <ion-title>Lista ordini</ion-title>
+    <button  ion-button menuToggle="right" end>
+      <ion-icon name="options"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
+
 
 <ion-content >
 
 <ion-list>
   <ion-item *ngFor = "let item of ordini | async">
 
-    <h2>Ordine del:</h2>
-    <p>{{item.data *1000 | date:'short'}}</p>
-    <p *ngIf="item.consegnato == 0" color="danger">Da consegnare</p>
-    <p *ngIf="item.consegnato == 1" color="secondary">Consegnato</p>
-    <button ion-button clear item-right (click)="apriDettaglioOrdine(item.$key)">Dettaglio</button>
+    <ion-icon *ngIf="item.stato == 0" name="bonfire" item-left></ion-icon>
+    <ion-icon *ngIf="item.stato == 1" name="cube" item-left></ion-icon>
+    <ion-icon *ngIf="item.stato == 2" name="bicycle" item-left></ion-icon>
+    <ion-icon *ngIf="item.stato == 3" name="body" item-left></ion-icon>
 
+    <p>{{item.data *1000 | date:'short'}}</p>
+
+    <p>Indirizzo: {{item.indirizzoSpedizione}}</p>
+    <p>Totale: {{item.totale | number : '1.2-2'}} CHF</p>
+    <p *ngIf="item.stato == 0" color="danger">In preparazione</p>
+    <p *ngIf="item.stato == 1" color="light">Pronto</p>
+    <p *ngIf="item.stato == 2" color="primary">In viaggio</p>
+    <p *ngIf="item.stato == 3" color="secondary">Consegnato</p>    
+    <p *ngIf="!item.pagato" color="danger">Da pagato</p>
+    <p *ngIf="item.pagato" color="secondary">Pagato</p>
+    <button ion-button clear item-right (click)="apriDettaglioOrdine(item.$key)">Dettaglio</button>
   </ion-item>
 </ion-list>
-:
+
 </ion-content>

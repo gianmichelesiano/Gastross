@@ -1,12 +1,37 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Chat</ion-title>
+    <button  ion-button menuToggle="right" end>
+      <ion-icon name="options"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
 
-<ion-content >
-Chat
+
+<ion-content padding>
+
+   <ion-item>
+        <ion-input type="text" [(ngModel)]="chatBox" placeholder="Scrivi messaggio..."></ion-input>
+   </ion-item>
+   <ion-item>
+        <button ion-button color="secondary" full (click)="send(chatBox)">Invia</button>
+   </ion-item>
+
+
+
+<ion-list>
+  <ion-item *ngFor = "let item of chats ">
+    <ion-avatar item-left>
+      <img [src]="item.avatar" >
+    </ion-avatar>
+    <h2>{{item.nome}}!</h2>
+    <p>{{item.descrizione}}</p>
+    <p>{{item.data*1000 | date:'short' }}</p>
+  </ion-item>
+
+</ion-list>
+
 </ion-content>

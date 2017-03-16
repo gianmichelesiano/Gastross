@@ -4,8 +4,12 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Carrello</ion-title>
+    <button  ion-button menuToggle="right" end>
+      <ion-icon name="options"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
+
 
 <ion-content >
 
@@ -17,11 +21,14 @@
     <ion-item-sliding *ngFor = "let item of ordineList | async">
       <ion-item >
     <ion-thumbnail item-left>
-      <img *ngIf="loading"  src="/assets/6.gif" alt="loading" style="max-width:20px;max-height:20px;"/>
-      <img [hidden]="loading" (load)="onLoad()" [src]="item.downloadURL | async" style="max-width:167px;max-height:100px;">
+      <ion-spinner *ngIf="loading"></ion-spinner>
+      <img [hidden]="loading" (load)="onLoad()" [src]="item.downloadURL | async" />
     </ion-thumbnail>
+        <ion-badge *ngIf="item.inOfferta" color="secondary">Offerta</ion-badge>
         <h2>{{item.nomePiatto}}</h2>
-        <p>{{item.prezzo | number: '.2'}}</p>
+        <p *ngIf="!item.inOfferta">{{item.prezzo| number : '1.2-2'}} CHF</p>
+        <del *ngIf="item.inOfferta">{{item.prezzo| number : '1.2-2'}} CHF</del>
+        <p *ngIf="item.inOfferta">{{item.prezzoOfferta| number : '1.2-2'}} CHF</p>
         <p>{{item.quantity| number: '.2'}}</p>
         
 
@@ -35,12 +42,11 @@
     </ion-item-sliding>
  </ion-list>
 
-<ion-list>
+ <ion-list>
   <ion-item>
     <h2>Costo Totale</h2>
-    <h2 item-right style="color: #00C200;">{{totaleFin | async | number: '.2'}} CHF</h2>
+    <h2 item-right style="color: #00C200;">{{totale | number: '.2'}} CHF</h2>
   </ion-item>
-
 </ion-list>
 
 
@@ -71,11 +77,6 @@
   </ion-item>
 </ion-list>
 
-      <button ion-button full color="danger" (click)="ordina(radioValue)">Ordina</button>
-  
-
-
-
-</ion-content>
+      <button ion-button full color="danger" (click)="ordina(radioValue, totale)">Completa ordine</button>
 
 

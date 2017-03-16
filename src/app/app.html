@@ -1,19 +1,36 @@
 <ion-menu [content]="content">
-
   <ion-header>
-    <ion-toolbar color="dark">
-      <ion-title>Pages</ion-title>
+    <ion-toolbar  color="dark">
+      <ion-title>Menù</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <ion-list>
-      <button ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon [name]="p.icona"></ion-icon>
+        &nbsp;&nbsp;&nbsp;{{p.title}}
+        <ion-badge item-right color="secondary">{{p.numero}}</ion-badge>
       </button>
     </ion-list>
   </ion-content>
+</ion-menu>
 
+
+<ion-menu [content]="content" side="right" id="menu2">
+<ion-header>
+  <ion-toolbar  color="dark" >
+    <ion-title>Impostazioni</ion-title>
+  </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <button  item-right menuClose="menu2" ion-item *ngFor="let p of pagesDestra"  (click)="openPage(p)">
+        <ion-icon [name]="p.icona"></ion-icon>
+        &nbsp;&nbsp;&nbsp;{{p.title}}
+      </button>
+    </ion-list>
+  </ion-content>
 </ion-menu>
 
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

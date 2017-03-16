@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import * as firebase from 'firebase'
 import {RistDettPage} from '../rist-dett/rist-dett'
+import { ImageLoaderConfig } from 'ionic-image-loader';
 
-import {ImageLazyLoadModule, WebWorkerService} from 'ng2-image-lazy-load';
-WebWorkerService.enabled = true;
+
 
 interface Ristorante {
     $key?: string;
@@ -36,11 +36,12 @@ export class RistListPage {
   ristoranti: FirebaseListObservable<any>;
   ristoranteList : Observable<Ristorante[]>;
 
-  constructor(af: AngularFire, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private imageLoaderConfig: ImageLoaderConfig, af: AngularFire, public navCtrl: NavController, public navParams: NavParams) {
 
   	 let storage = firebase.storage();
      this.ristoranti = af.database.list('/ristoranti');
      console.log(this.ristoranti)
+     imageLoaderConfig.enableSpinner(true);
 
 
 

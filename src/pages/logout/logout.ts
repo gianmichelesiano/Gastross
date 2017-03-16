@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { Auth} from '@ionic/cloud-angular';
+import { LoginPage } from '../login/login';
 
 /*
   Generated class for the Logout page.
@@ -13,7 +15,11 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class LogoutPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public auth:Auth,) {
+	  	this.auth.logout();
+	    this.navCtrl.setRoot(LoginPage);
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LogoutPage');

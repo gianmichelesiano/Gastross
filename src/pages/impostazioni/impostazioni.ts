@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable  } from 'angularfire2';
-import { User } from '@ionic/cloud-angular';
+import {TranslateService} from 'ng2-translate';
 
-/*
-  Generated class for the Impostazioni page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-impostazioni',
   templateUrl: 'impostazioni.html'
@@ -16,69 +10,25 @@ import { User } from '@ionic/cloud-angular';
 export class ImpostazioniPage {
 
 
-  
-
-  impostazioniSnap: FirebaseObjectObservable<any>;
-  locVar:any;
-  nome :string
-  cognome :string
-  indirizzo :string
-  cap :string
-  dataNascita :string
-  sesso :string
-  constructor(public loadingCtrl:LoadingController, private toastCtrl: ToastController, public user: User, public af: AngularFire,public navCtrl: NavController, public navParams: NavParams) {
-
-  	this.impostazioniSnap = af.database.object('/impostazioni/'+this.user.id, { preserveSnapshot: true });
-    let loader = this.loadingCtrl.create({
-    content: "Sto caricando le preferenze..."
-    });
-    loader.present();
-    this.impostazioniSnap.subscribe(snapshot => {
-
-    		this.locVar = snapshot.val();
-    		if (this.locVar ==null) {
-    			this.nome = '';
-    			this.cognome = '';
-    			this.indirizzo = '';
-    			this.cap = '';
-    			this.dataNascita = '';
-    			this.sesso = '';
-
-    		} else {
-    			this.nome = this.locVar['nome'];
-    			this.cognome = this.locVar['cognome'];
-    			this.indirizzo = this.locVar['indirizzo'];
-    			this.cap = this.locVar['cap'];
-    			this.dataNascita = this.locVar['dataNascita'];
-    			this.sesso = this.locVar['sesso'];
-
-  			}
-  			loader.dismissAll();
-    });
+  constructor(public translate: TranslateService, public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ImpostazioniPage');
   }
 
-  salvaImpostazioni(nome, cognome, indirizzo, cap, dataNascita, sesso){
-  	
-  	console.log(nome, cognome, indirizzo, cap, dataNascita, sesso)
-  	this.impostazioniSnap.set({ 
-  						nome: nome,
-  						cognome: cognome,
-  						indirizzo: indirizzo,
-  						cap: cap,
-  						dataNascita: dataNascita,
-  						sesso: sesso,
-  					});
-	let toast = this.toastCtrl.create({
-    message: 'Preferenze Salvate',
-    duration: 2000,
-    position: 'down'
-	    });
-    toast.present();
 
+  cambiaLingua(lingua){
+    console.log(lingua)
+    if (lingua=='en'){
+      return this.translate.setDefaultLang('en');
+    }
+    if (lingua=='de'){
+      return this.translate.setDefaultLang('de');
+    }
+    if (lingua=='it'){
+      return this.translate.setDefaultLang('it');
+    }
   }
 
 }

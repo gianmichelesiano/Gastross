@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar color="danger">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Dati personali</ion-title>
+    <button  ion-button menuToggle="right" end>
+      <ion-icon name="options"></ion-icon>
+    </button>
+  </ion-navbar>
+</ion-header>
+
+
+
+<ion-content class="login-content" padding>
+  <div>
+    <ion-item>
+      <ion-input type="text" placeholder="Nome" [(ngModel)]="nome"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="text" placeholder="Cognome" [(ngModel)]="cognome"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="text" placeholder="Indirizzo" [(ngModel)]="indirizzo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="number" placeholder="Cap" [(ngModel)]="cap"></ion-input>
+    </ion-item>
+
+	<ion-item>
+	  <ion-label>Data di nascita</ion-label>
+	  <ion-datetime displayFormat="DD MMM YYYY"  [(ngModel)]="dataNascita"></ion-datetime>
+	</ion-item>
+
+	  <ion-list radio-group [(ngModel)]="sesso">
+	  <ion-list-header>
+	    Sesso
+	  </ion-list-header>
+
+	  <ion-item>
+	    <ion-label>Uomo</ion-label>
+	    <ion-radio checked="true" value="m" checked=true></ion-radio>
+	  </ion-item>
+
+	  <ion-item>
+	    <ion-label>Donna</ion-label>
+	    <ion-radio value="f"></ion-radio>
+	  </ion-item>
+	</ion-list>
+
+    <button ion-button color="secondary" full (click)="salvaImpostazioni(nome, cognome, indirizzo, cap, dataNascita, sesso )">Salva</button>
+  </div>
+</ion-content>

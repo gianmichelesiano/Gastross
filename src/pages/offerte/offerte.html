@@ -1,12 +1,36 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="danger">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Offerte</ion-title>
+    <button  ion-button menuToggle="right" end>
+      <ion-icon name="options"></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
 
+
 <ion-content >
-Offerte
+
+
+<ion-list>
+  <ion-item *ngFor = "let item of listaOfferte">
+    
+    <ion-thumbnail item-left>
+      <ion-spinner *ngIf="loading"></ion-spinner>
+      <img [hidden]="loading" (load)="onLoad()" [src]="item.downloadURL | async" />
+    </ion-thumbnail>
+
+    <ion-badge  color="secondary">Offerta</ion-badge>
+    <h2>{{item.piatto.nomePiatto}}</h2>
+    <h2>{{item.nomeRistorante}}</h2>
+    <del>{{item.piatto.prezzo | number : '1.2-2'}} CHF</del>
+    <h2>{{item.piatto.prezzoOfferta | number : '1.2-2'}}</h2>
+    <p>Scade il: {{item.piatto.dataScadenza | date}}</p>
+    <button ion-button clear item-right (click)="apriDettaglio(item.piatto, item.downloadURL, item.idRistorante, item.nomeRistorante)">Dettaglio</button>
+  </ion-item>
+</ion-list>
+
 </ion-content>
+

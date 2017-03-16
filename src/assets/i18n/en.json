@@ -1,0 +1,11 @@
+{
+    "key" : "Translation for Key",   
+    "HELLO": "Hello",
+    "BENVENUTO": "Welcome",
+    "ORDINA": "Order",
+    "nested": {    
+        "user": "User",
+        "signIn": "Sign In",
+        "signUp": "Sign Up"
+    }
+}

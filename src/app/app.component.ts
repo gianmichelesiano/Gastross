@@ -1,29 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
-
 import { Platform, MenuController, Nav } from 'ionic-angular';
-
 import { StatusBar, Splashscreen } from 'ionic-native';
-
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
-import { ListPage } from '../pages/list/list';
 import { RistListPage } from '../pages/rist-list/rist-list';
-import { RistDettPage } from '../pages/rist-dett/rist-dett';
-import { PiattListPage } from '../pages/piatt-list/piatt-list';
-import { PiattDettPage } from '../pages/piatt-dett/piatt-dett';
 import { OrdListPage } from '../pages/ord-list/ord-list';
-import { OrdDettPage } from '../pages/ord-dett/ord-dett';
 import { OffertePage } from '../pages/offerte/offerte';
 import { ImpostazioniPage } from '../pages/impostazioni/impostazioni';
 import { CarrelloPage } from '../pages/carrello/carrello';
 import { ChatPage } from '../pages/chat/chat';
 import { IntroPage } from '../pages/intro/intro';
-import { LoginPage } from '../pages/login/login';
 import { LogoutPage } from '../pages/logout/logout';
-
-import {ImageLazyLoadModule, WebWorkerService} from 'ng2-image-lazy-load';
-
-WebWorkerService.workerUrl = 'assets/js/xhrWorker.js';
-WebWorkerService.enabled = true;
+import { DatiPersonaliPage } from '../pages/dati-personali/dati-personali';
 
 
 @Component({
@@ -34,7 +21,8 @@ export class MyApp {
 
   // make HelloIonicPage the root (or first) page
   rootPage: any = HelloIonicPage;
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any, icona: string, numero: string }>;
+  pagesDestra: Array<{title: string, component: any, icona: string}>;
 
   constructor(
     public platform: Platform,
@@ -42,17 +30,24 @@ export class MyApp {
   ) {
     this.initializeApp();
 
+     
+
     // set our app's pages
     this.pages = [
-      { title: 'Home', component: HelloIonicPage },
-      { title: 'Ristoranti', component: RistListPage },
-      { title: 'Ordini', component: OrdListPage },
-      { title: 'Carrello', component: CarrelloPage },
-      { title: 'Offerte', component: OffertePage },
-      { title: 'Impostazioni', component: ImpostazioniPage },  
-      { title: 'Chat', component: ChatPage },
-      { title: 'Intro', component: IntroPage },
-      { title: 'Logout', component: LogoutPage },
+      { title: 'Home', component: HelloIonicPage, icona: 'home' , numero:''},
+      { title: 'Ristoranti', component: RistListPage, icona: 'restaurant', numero:'6' },
+      { title: 'Ordini', component: OrdListPage, icona: 'card', numero:'5' },
+      { title: 'Carrello', component: CarrelloPage, icona: 'cart', numero:'' },
+      { title: 'Offerte', component: OffertePage, icona: 'body',  numero:'6'},
+      { title: 'Chat', component: ChatPage, icona: 'chatbubbles', numero:'' },
+
+    ];
+
+    this.pagesDestra = [
+      { title: 'Dati Personali', component: DatiPersonaliPage, icona: 'contact' },
+      { title: 'Impostazioni', component: ImpostazioniPage, icona: 'settings' },  
+      { title: 'Intro', component: IntroPage, icona: 'eye' },
+      { title: 'Logout', component: LogoutPage, icona: 'exit' },
     ];
   }
 
