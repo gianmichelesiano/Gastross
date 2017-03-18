@@ -1,7 +1,7 @@
 import { Component , OnInit} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AngularFire, FirebaseListObservable , FirebaseObjectObservable} from 'angularfire2';
-import { Observable } from 'rxjs';
+//import { Observable } from 'rxjs';
 import {PiattDettPage} from '../piatt-dett/piatt-dett'
 import 'rxjs/add/operator/map';
 

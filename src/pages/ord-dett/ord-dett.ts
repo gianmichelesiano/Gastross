@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { AngularFire, FirebaseListObservable  } from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable  } from 'angularfire2';
 import { User } from '@ionic/cloud-angular';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
@@ -26,16 +26,64 @@ interface NewPiatto {
 })
 export class OrdDettPage {
   loading: boolean = true
-  ordineDettaglio: FirebaseListObservable<any>;
+  listaordineDettaglio: FirebaseListObservable<any>;
+  oggettoRistorante: FirebaseObjectObservable<any>;
+
   ordineDettaglioConFoto : Observable<NewPiatto[]>;
-  key:any
+  
+  
+  listaTutti = []
+
+
+  ordine:any
+  idOrdine:any
   constructor(public user: User, public af: AngularFire, public navCtrl: NavController, public navParams: NavParams) {
     let storage = firebase.storage();
-  	this.key = navParams.get('key')
-  	console.log(this.key)
-  	this.ordineDettaglio = this.af.database.list('ordini/'+this.user.id+'/'+this.key+'/ordine')
+  	
+    this.ordine = navParams.get('ordine')
+    this.idOrdine = navParams.get('idOrdine')
+
+
+    this.listaordineDettaglio = this.af.database.list('ordini/'+this.user.id+'/'+this.idOrdine+'/ordine', {preserveSnapshot:true})
+
+
+    this.listaordineDettaglio.subscribe(snapshots => {
+                 snapshots.forEach(snapshot => {
+                        let chiave = snapshot.key
+                        let valore = snapshot.val()
+
+                        let listaPiatti = []
+                        for (let k in valore){
+                          listaPiatti.push(valore[k])
+                        }
+
+
+
+this.oggettoRistorante = this.af.database.object('ristoranti/'+chiave, {preserveSnapshot:true})
+this.oggettoRistorante.subscribe( elemn => {
+  console.log(elemn.val()['nome'])
+  let nomeRist = elemn.val()['nome']
+  this.listaTutti.push({nomeRist:nomeRist, chiave:chiave, listaPiatti:listaPiatti})
+})
+                        
+
+                      
+                    })
+ 
+               })
+
+
+
+
+
+
+
     
-    this.ordineDettaglioConFoto = this.ordineDettaglio.map( itemList =>
+
+
+  	//this.ordineDettaglio = this.af.database.list('ordini/'+this.user.id+'/'+this.key+'/ordine')
+    
+/*    this.ordineDettaglioConFoto = this.ordineDettaglio.map( itemList =>
         itemList.map( item => {
             console.log(item)
             var pathReference = storage.ref(item.path);
@@ -53,7 +101,7 @@ export class OrdDettPage {
             console.log(result);
             return result;
         })
-    );
+    );*/
 
   }
 

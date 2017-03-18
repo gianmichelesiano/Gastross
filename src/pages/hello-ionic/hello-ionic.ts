@@ -19,7 +19,7 @@ export class HelloIonicPage {
         this.navCtrl.setRoot(LoginPage)
     }
   
-
+    //this.af.database.list('/carrello/').remove(this.user.id)
     this.backimg = 'assets/steak.jpg';
 
   }

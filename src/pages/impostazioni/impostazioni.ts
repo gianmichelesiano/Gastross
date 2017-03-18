@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import {TranslateService} from 'ng2-translate';
 
 

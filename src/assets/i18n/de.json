@@ -3,6 +3,7 @@
     "HELLO": "Gruentzi",
     "BENVENUTO": "Willkommen",
     "ORDINA": "Bestellen",
+    "MESSAGGIO_HOME" : "Die verwendeten Daten sind lediglich beispielhaft und sind nur für eine Demonstration verwendet",
     "nested": {    
         "user": "Benutzer",
         "signIn": "Einloggen",

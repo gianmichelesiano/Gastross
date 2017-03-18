@@ -3,6 +3,7 @@
     "HELLO": "Hello",
     "BENVENUTO": "Welcome",
     "ORDINA": "Order",
+    "MESSAGGIO_HOME" : "The data used are purely an example and are only used for a demonstration",
     "nested": {    
         "user": "User",
         "signIn": "Sign In",

@@ -52,6 +52,7 @@ export class PiattDettPage {
                           nomeRistorante:item.nomeRistorante,
                           prezzoOfferta:item.prezzoOfferta,
                           inOfferta:item.inOfferta,
+                          pronto:false,
                         }).then((item) => { console.log(item.key); });          
           this.navCtrl.setRoot(CarrelloPage)
     } else {

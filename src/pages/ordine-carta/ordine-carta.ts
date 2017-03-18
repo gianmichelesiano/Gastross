@@ -48,34 +48,29 @@ export class OrdineCartaPage {
 
   pagaOrdine(indirizzo){
 
+    var data = Math.floor(Date.now() / 1000)
   	this.ordine = this.af.database.object('ordini/'+this.idCliente+'/'+this.idOrdine);
   	this.ordine.update({indirizzoSpedizione:indirizzo, pagato:true})
 
 
 
-    this.ordineList = this.af.database.list('ordini/'+this.idCliente+'/'+this.idOrdine+'/ordine/',{ preserveSnapshot: true})
+    this.ordineList = this.af.database.list('ordini/'+this.idCliente+'/'+this.idOrdine+'/ordine/')
 
     this.ordineList.subscribe(snapshots => {
         snapshots.forEach(snapshot => {
-        	let ordineKey = snapshot.key
-          	let item = snapshot.val()
-			let comanda = {
-						      idPiatto:item['idPiatto'],
-						      path: item['path'],
-						      nomePiatto: item['nomePiatto'],
-						      quantity: item['quantity'],
-						      prezzo: item['prezzo'],
-						      nomeRistorante: item['prezzo'],
-						      inOfferta: item['inOfferta'],
-						      prezzoOfferta: item['prezzoOfferta'],
-						      data: this.data,
-						      pagato:true,
-						      pronto:false,
-						      consegnato:false,
-			
-						};
-           console.log(comanda);
-           this.af.database.object('/comande/'+item.idRistorante+'/'+this.idCliente+'/'+ordineKey).set(comanda)
+        	  let idRistorante = snapshot.$key
+          	let item = snapshot
+            console.log(idRistorante)
+            console.log(item)
+            let comanda = {}
+            comanda['pronto'] = false
+            comanda['idCliente'] = this.idCliente
+            comanda['data'] = data
+            comanda['ordine'] = item
+
+            this.af.database.object('/comande/'+idRistorante+'/'+this.idOrdine).set(comanda)
+
+            //this.af.database.object('/comande/'+item.idRistorante+'/'+this.idCliente+'/'+ordineKey).set(comanda)
         });
     })
     
@@ -87,18 +82,9 @@ export class OrdineCartaPage {
              loader.dismissAll()
     }, 2000);
 
-/*    let toast = this.toastCtrl.create({
-      message: 'Pagamento effettuato',
-      duration: 2000,
-      position: 'middle'
-      });
-    toast.present();*/
-
-    
+    this.af.database.list('/carrello/').remove(this.user.id)
 
     this.navCtrl.setRoot(OrdListPage)
-
-  	//segna come pagato
   }
 
 }

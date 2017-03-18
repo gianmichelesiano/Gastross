@@ -30,7 +30,7 @@ import { IonicImageLoader } from 'ionic-image-loader';
 import { OrdineContantiPage } from '../pages/ordine-contanti/ordine-contanti';
 import { OrdineCartaPage } from '../pages/ordine-carta/ordine-carta';
 
-import {HttpModule, Http} from '@angular/http';
+import { Http} from '@angular/http';
 import { TranslateModule, TranslateStaticLoader, TranslateLoader  } from 'ng2-translate/ng2-translate';
 
 

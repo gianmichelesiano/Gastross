@@ -11,25 +11,111 @@
 </ion-header>
 
 
-<ion-content >
 
-
+<ion-content padding>
 <ion-list>
-  <ion-item *ngFor = "let item of ordineDettaglioConFoto | async">
-    <ion-thumbnail item-left>
-      <ion-spinner *ngIf="loading"></ion-spinner>
-      <img [hidden]="loading" (load)="onLoad()" [src]="item.downloadURL | async" />
-    </ion-thumbnail>
-    <ion-badge *ngIf="item.inOfferta" color="secondary">Offerta</ion-badge>
-    <h2>{{item.nomePiatto}}</h2>
-    <p>{{item.nomeRistorante}}</p>
-    <p *ngIf="!item.inOfferta">{{item.prezzo| number : '1.2-2'}} CHF</p>
-    <del *ngIf="item.inOfferta">{{item.prezzo| number : '1.2-2'}} CHF</del>
-    <p *ngIf="item.inOfferta">{{item.prezzoOfferta| number : '1.2-2'}} CHF</p>
-    <p >{{item.quantity}}</p>
-  </ion-item>
-</ion-list>
 
+  <ion-item *ngFor = "let elem of listaTutti ">
+
+    <ion-list>
+      <ion-list-header >
+        <h3 ion-text color="light">{{elem.nomeRist}}</h3>
+      </ion-list-header>
+
+      <ion-item *ngFor = "let item of elem.listaPiatti ">
+          <ion-card>
+            <ion-card-header>
+              {{item.nomePiatto}}
+            </ion-card-header>
+
+
+            <ion-card-content>
+
+               <ion-row *ngIf="!item.inOfferta">
+                <ion-col width-50 ><p ion-text color="primary">Prezzo:</p></ion-col> 
+                <ion-col ><p>{{item.prezzo | number : '1.2-2'}} CHF</p></ion-col>
+             </ion-row>
+
+             <ion-row *ngIf="item.inOfferta">
+                <ion-col width-50 ><p ion-text color="primary">Prezzo:</p></ion-col> 
+                <ion-col ><del>{{item.prezzo | number : '1.2-2'}} CHF</del></ion-col>
+             </ion-row>
+
+            <ion-row *ngIf="item.inOfferta">
+                <ion-col width-50 ><p ion-text color="primary">Prezzo Offerta:</p></ion-col> 
+                <ion-col ><p>{{item.prezzoOfferta | number : '1.2-2'}} CHF</p></ion-col>
+             </ion-row>
+
+               <ion-row >
+                <ion-col width-50 ><p ion-text color="primary">Quantità:</p></ion-col> 
+                <ion-col><p>{{item.quantity}}</p></ion-col>
+             </ion-row>
+
+            <ion-row *ngIf="!item.pronto">
+                <ion-col width-50 ><p ion-text color="danger">Da prepare</p></ion-col> 
+             </ion-row>
+
+             <ion-row *ngIf="item.pronto">
+                <ion-col width-50 ><p ion-text color="secondary">Pronto</p></ion-col> 
+             </ion-row>
+           
+             </ion-card-content>
+
+          </ion-card>
+
+
+         </ion-item>
+    </ion-list>
+
+  </ion-item>
+
+</ion-list>
 </ion-content>
 
+
+<!-- <ion-content padding>
+<ion-list>
+
+  <ion-item *ngFor = "let item of listaPiatti ">
+
+  <ion-card>
+  <ion-card-header>
+    {{item.nomePiatto}}
+  </ion-card-header>
+
+
+  <ion-card-content>
+  <ion-row >
+      <ion-col width-50 ><p ion-text color="primary">Ristorante:</p></ion-col> 
+      <ion-col><p>{{item.nomeRistorante}}</p></ion-col>
+   </ion-row>
+
+     <ion-row *ngIf="!item.inOfferta">
+      <ion-col width-50 ><p ion-text color="primary">Prezzo:</p></ion-col> 
+      <ion-col ><p>{{item.prezzo | number : '1.2-2'}} CHF</p></ion-col>
+   </ion-row>
+
+   <ion-row *ngIf="item.inOfferta">
+      <ion-col width-50 ><p ion-text color="primary">Prezzo:</p></ion-col> 
+      <ion-col ><del>{{item.prezzo | number : '1.2-2'}} CHF</del></ion-col>
+   </ion-row>
+
+  <ion-row *ngIf="item.inOfferta">
+      <ion-col width-50 ><p ion-text color="primary">Prezzo Offerta:</p></ion-col> 
+      <ion-col ><p>{{item.prezzoOfferta | number : '1.2-2'}} CHF</p></ion-col>
+   </ion-row>
+
+     <ion-row >
+      <ion-col width-50 ><p ion-text color="primary">Quantità:</p></ion-col> 
+      <ion-col><p>{{item.quantity}}</p></ion-col>
+   </ion-row>
+ 
+   </ion-card-content>
+
+</ion-card>
+
+  </ion-item>
+
+</ion-list>
+</ion-content> -->
 

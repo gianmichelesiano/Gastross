@@ -11,9 +11,12 @@
 </ion-header>
 
 
-<ion-content >
+<ion-content *ngIf="!(ordineList | async)?.length>0">
+<h3>Carrello Vuoto</h3>
+</ion-content>
 
- <ion-list>
+<ion-content *ngIf="(ordineList | async)?.length>0"> 
+ <ion-list>  
     <ion-list-header>
       Il tuo ordine
     </ion-list-header>
@@ -78,5 +81,4 @@
 </ion-list>
 
       <button ion-button full color="danger" (click)="ordina(radioValue, totale)">Completa ordine</button>
-
-
+</ion-content>

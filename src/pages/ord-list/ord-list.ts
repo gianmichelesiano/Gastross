@@ -21,8 +21,9 @@ export class OrdListPage {
             map((array) => array.reverse()) as FirebaseListObservable<any[]>;
    }
 
-  apriDettaglioOrdine(key){
-  	this.navCtrl.push(OrdDettPage,  { key:key });
+  apriDettaglioOrdine(ordine, idOrdine){
+    console.log(idOrdine)
+  	this.navCtrl.push(OrdDettPage,  { ordine:ordine, idOrdine:idOrdine });
   }
 
   ionViewDidLoad() {

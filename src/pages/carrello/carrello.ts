@@ -10,7 +10,7 @@ import * as firebase from 'firebase'
 
 import {RistListPage} from '../rist-list/rist-list'
 import {HelloIonicPage} from '../hello-ionic/hello-ionic'
-import {OrdListPage} from '../ord-list/ord-list'
+//import {OrdListPage} from '../ord-list/ord-list'
 
 import { OrdineContantiPage } from '../ordine-contanti/ordine-contanti';
 import { OrdineCartaPage } from '../ordine-carta/ordine-carta';
@@ -28,6 +28,7 @@ interface Ordine {
     path: string; 
     inOfferta:boolean;
     prezzoOfferta: string; 
+    pronto: string; 
 }
 
 
@@ -37,6 +38,7 @@ interface Ordine {
 })
 export class CarrelloPage {
 
+  carrelloPieno: boolean = false
   item:any
   quantity:number
   loading: boolean = true
@@ -47,6 +49,7 @@ export class CarrelloPage {
 
   carrelloSnap: FirebaseObjectObservable<any>;
 
+  ordineListPaga : Observable<Ordine[]>;
   ordineList : Observable<Ordine[]>;
   cartTotal: Observable<any>;
   oggettoTotale: FirebaseObjectObservable<any>;
@@ -61,6 +64,7 @@ export class CarrelloPage {
 
     this.ordineList = this.carrello.map( itemList =>
         itemList.map( item => {
+            this.carrelloPieno = true
             var pathReference = storage.ref(item.path);
             let result = {
                     $key: item.$key, 
@@ -71,7 +75,8 @@ export class CarrelloPage {
                     prezzo: item.prezzo,
                     nomeRistorante: item.nomeRistorante,
                     inOfferta: item.inOfferta,
-                    prezzoOfferta: item.prezzoOfferta
+                    prezzoOfferta: item.prezzoOfferta,
+                    pronto:false
                   };
             return result;
         })
@@ -80,6 +85,8 @@ export class CarrelloPage {
 
     
     //Calcolo Totale
+    this.totale = 0
+    this.carrelloSnap = null 
     this.carrelloSnap = af.database.object('/carrello/'+this.user.id, { preserveSnapshot: true });
     this.carrelloSnap.subscribe(snapshot => {
         let listaPiatti = snapshot.val()
@@ -95,7 +102,6 @@ export class CarrelloPage {
     });
 
 
-   
   }
 
   ionViewDidLoad() {
@@ -106,7 +112,8 @@ export class CarrelloPage {
     this.loading = false;
   }
 
-  deletePiatto(key: string) {    
+  deletePiatto(key: string) { 
+    this.totale = 0   
     this.carrello.remove(key); 
   }
 
@@ -155,32 +162,23 @@ export class CarrelloPage {
                                                data:data,
                                                totale:totale,
                                                pagato:pagato
-                                    
-          }).then((ordine) => { 
+                          
+          }).then((ordine) => {
+               this.carrello.subscribe(snapshots => {
+                    snapshots.forEach(snapshot => {
+                        let chiave = snapshot.$key
+                        let valore = snapshot
+                        let idRistorante = valore['idRistorante']
+                       
+                        console.log(valore)
+                        console.log(idRistorante)
 
-            this.ordineList = this.carrello.map( itemList =>
-                  itemList.map( item => {
-                      let result = {
-                              idPiatto:item.$key,
-                              idRistorante:item.idRistorante,
-                              path: item.path, 
-                              nomePiatto: item.nomePiatto, 
-                              quantity: item.quantity, 
-                              prezzo: item.prezzo,
-                              nomeRistorante: item.nomeRistorante,
-                              inOfferta: item.inOfferta,
-                              prezzoOfferta: item.prezzoOfferta
-                      };
-                      idOrdine = ordine.key
-                      this.af.database.list('/ordini/'+this.user.id+'/'+ordine.key+'/ordine').push(result)
-                      return result;
+                        //let idRistorante = valore['idRistorante']
 
-
-                  })
-            ); // fine ordineList
-
-            this.navCtrl.push(Page, {totale:totale, idCliente:this.user.id, idOrdine:ordine.key, data:data}); 
-
+                        this.af.database.object('/ordini/'+this.user.id+'/'+ordine.key+'/ordine/'+idRistorante+'/'+chiave).set(valore)
+                    })
+               }).unsubscribe()
+               this.navCtrl.push(Page, {totale:totale, idCliente:this.user.id, idOrdine:ordine.key, data:data});     
           })
   }
 
@@ -188,3 +186,4 @@ export class CarrelloPage {
 
 
 }
+
