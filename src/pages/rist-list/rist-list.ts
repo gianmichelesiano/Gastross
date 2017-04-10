@@ -39,9 +39,11 @@ export class RistListPage {
   constructor(private imageLoaderConfig: ImageLoaderConfig, af: AngularFire, public navCtrl: NavController, public navParams: NavParams) {
 
   	 let storage = firebase.storage();
+     console.log("1");
      this.ristoranti = af.database.list('/ristoranti');
-     console.log(this.ristoranti)
-     imageLoaderConfig.enableSpinner(true);
+     //console.log(this.ristoranti)
+     //imageLoaderConfig.enableSpinner(true);
+     console.log("2");
 
 
 
@@ -58,10 +60,11 @@ export class RistListPage {
               maxTempoConsegna: item.maxTempoConsegna, 
               tipologia: item.tipologia
             };
-            console.log(result);
+            //console.log(result);
             return result;
         })
     );
+    console.log("3");
   }
 
 

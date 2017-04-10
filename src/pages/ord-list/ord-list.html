@@ -28,10 +28,10 @@
     <p *ngIf="item.stato == 0" color="danger">In preparazione</p>
     <p *ngIf="item.stato == 1" color="light">Pronto</p>
     <p *ngIf="item.stato == 2" color="primary">In viaggio</p>
-    <p *ngIf="item.stato == 3" color="secondary">Consegnato</p>    
+    <p *ngIf="item.stato == 3" color="secondary">In consegna</p>    
     <p *ngIf="!item.pagato" color="danger">Da pagato</p>
     <p *ngIf="item.pagato" color="secondary">Pagato</p>
-    <button ion-button clear item-right (click)="apriDettaglioOrdine(item.ordine, item.$key)">Dettaglio</button>
+    <button ion-button clear item-right (click)="apriDettaglioOrdine(item.$key)">Dettaglio</button>
   </ion-item>
 </ion-list>
 

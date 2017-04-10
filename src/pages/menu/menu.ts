@@ -43,8 +43,18 @@ export class MenuPage {
   	let storage = firebase.storage();
   	this.item = navParams.get('item')
   	this.idRistorante = this.item.$key;
+
     this.nomeRistorante = this.item.nome;
-    this.menu = af.database.list('/menu/'+this.idRistorante);
+
+    //this.menu = af.database.list('/menu/'+this.idRistorante);
+
+    this.menu = af.database.list('/menu', {
+      query: {
+        orderByChild: 'idRistorante',
+        equalTo: this.idRistorante
+      }
+    });
+
 
     this.piattiList = this.menu.map( itemList =>
         itemList.map( item => {

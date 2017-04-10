@@ -15,17 +15,13 @@
 <ion-content padding>
 <ion-list>
 
-  <ion-item *ngFor = "let elem of listaTutti ">
-
-    <ion-list>
-      <ion-list-header >
-        <h3 ion-text color="light">{{elem.nomeRist}}</h3>
-      </ion-list-header>
-
-      <ion-item *ngFor = "let item of elem.listaPiatti ">
+  <ion-item *ngFor = "let item of listaordineDettaglio | async ">
           <ion-card>
             <ion-card-header>
-              {{item.nomePiatto}}
+              <p ion-text color="secondary">{{item.nomeRistorante}}</p>
+               <br>
+              {{item.nomePiatto}} 
+
             </ion-card-header>
 
 
@@ -38,7 +34,7 @@
 
              <ion-row *ngIf="item.inOfferta">
                 <ion-col width-50 ><p ion-text color="primary">Prezzo:</p></ion-col> 
-                <ion-col ><del>{{item.prezzo | number : '1.2-2'}} CHF</del></ion-col>
+                <ion-col ><del style="color:red;">{{item.prezzo | number : '1.2-2'}} CHF</del></ion-col>
              </ion-row>
 
             <ion-row *ngIf="item.inOfferta">
@@ -62,60 +58,8 @@
              </ion-card-content>
 
           </ion-card>
-
-
-         </ion-item>
-    </ion-list>
-
   </ion-item>
 
 </ion-list>
 </ion-content>
-
-
-<!-- <ion-content padding>
-<ion-list>
-
-  <ion-item *ngFor = "let item of listaPiatti ">
-
-  <ion-card>
-  <ion-card-header>
-    {{item.nomePiatto}}
-  </ion-card-header>
-
-
-  <ion-card-content>
-  <ion-row >
-      <ion-col width-50 ><p ion-text color="primary">Ristorante:</p></ion-col> 
-      <ion-col><p>{{item.nomeRistorante}}</p></ion-col>
-   </ion-row>
-
-     <ion-row *ngIf="!item.inOfferta">
-      <ion-col width-50 ><p ion-text color="primary">Prezzo:</p></ion-col> 
-      <ion-col ><p>{{item.prezzo | number : '1.2-2'}} CHF</p></ion-col>
-   </ion-row>
-
-   <ion-row *ngIf="item.inOfferta">
-      <ion-col width-50 ><p ion-text color="primary">Prezzo:</p></ion-col> 
-      <ion-col ><del>{{item.prezzo | number : '1.2-2'}} CHF</del></ion-col>
-   </ion-row>
-
-  <ion-row *ngIf="item.inOfferta">
-      <ion-col width-50 ><p ion-text color="primary">Prezzo Offerta:</p></ion-col> 
-      <ion-col ><p>{{item.prezzoOfferta | number : '1.2-2'}} CHF</p></ion-col>
-   </ion-row>
-
-     <ion-row >
-      <ion-col width-50 ><p ion-text color="primary">Quantità:</p></ion-col> 
-      <ion-col><p>{{item.quantity}}</p></ion-col>
-   </ion-row>
- 
-   </ion-card-content>
-
-</ion-card>
-
-  </ion-item>
-
-</ion-list>
-</ion-content> -->
 

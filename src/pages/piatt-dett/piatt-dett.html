@@ -59,7 +59,7 @@ Offerta termina il: {{item.dataScadenza | date}}
   </ion-item>
   <ion-item *ngIf="item.inOfferta">
     <h2>Costo singolo</h2>
-    <del item-right>{{item.prezzo | number : '1.2-2'}} CHF</del>
+    <del item-right arrow-round-forward style="color:red;"> {{item.prezzo | number : '1.2-2'}} CHF</del>
   </ion-item>
   <ion-item *ngIf="item.inOfferta">
     <h2>Costo In offerta</h2>

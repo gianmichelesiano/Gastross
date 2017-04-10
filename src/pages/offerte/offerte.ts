@@ -4,6 +4,7 @@ import { AngularFire, FirebaseListObservable , FirebaseObjectObservable} from 'a
 //import { Observable } from 'rxjs';
 import {PiattDettPage} from '../piatt-dett/piatt-dett'
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
 
 
 import * as firebase from 'firebase'
@@ -15,6 +16,8 @@ interface Offerta {
     tipologiaPiatto:string;
     ricetta:string;
     prezzo:string;
+    prezzoOfferta:string;
+    dataScadenza:string;
     downloadURL?: string;
     path: string;  
 }
@@ -31,34 +34,32 @@ export class OffertePage implements OnInit {
   menu: FirebaseObjectObservable<any>;
   offerte : FirebaseListObservable<any>;
   ristoranteObject: FirebaseObjectObservable<any>;
+  offerteList : Observable<Offerta[]>;
   
 
   constructor(public af: AngularFire, public navCtrl: NavController, public navParams: NavParams) {
 
       let storage = firebase.storage();
-      // prendi offerte
-      this.menu = af.database.object('/', { preserveSnapshot: true });
-      this.menu.subscribe(snapshot => {
-        let menu = snapshot.val().menu
-        let ristoranti = snapshot.val().ristoranti
-        for (var idRistorante in menu) {
-            let menuRistorante = menu[idRistorante]
-            let nomeRistorante = ristoranti[idRistorante]['nome']
-         
-            for (var idPiatto in menuRistorante) {
-              var pathReference = storage.ref(menuRistorante[idPiatto].path);
-              if (menuRistorante[idPiatto]['inOfferta'] == true){
-                this.listaOfferte.push({
-                                        nomeRistorante:nomeRistorante, 
-                                        idRistorante:idRistorante, 
-                                        piatto:menuRistorante[idPiatto],
-                                        downloadURL: pathReference.getDownloadURL()
-                                      })
-              }
-            }
+
+
+      this.offerte = af.database.list('/menu', {
+        query: {
+          orderByChild: 'inOfferta',
+          equalTo: true
         }
-        console.log(this.listaOfferte)
       });
+
+      this.offerteList = this.offerte.map( itemList =>
+        itemList.map( item => {
+            var pathReference = storage.ref(item.path);
+            let result = {$key: item.$key, idRistorante:item.idRistorante, inOfferta:item.inOfferta, prezzoOfferta:item.prezzoOfferta, dataScadenza:item.dataScadenza, downloadURL: pathReference.getDownloadURL(), path: item.path, nomePiatto: item.nomePiatto, tipologiaPiatto: item.tipologiaPiatto, ricetta: item.ricetta, prezzo: item.prezzo};
+            let nomeRistorante = af.database.object('/ristoranti/'+item.idRistorante).subscribe( res => {
+               console.log(res.nome)
+               result['nomeRistorante'] = res.nome
+            })
+            return result;
+        })
+     );
       //finisce
   }
 
@@ -71,16 +72,8 @@ export class OffertePage implements OnInit {
     console.log('ionViewDidLoad OffertePage');
   }
 
-  apriDettaglio(item, downloadURL, idRistorante, nomeRistorante ){
-
-    item['downloadURL'] = downloadURL
-    item['idRistorante'] = idRistorante
-    item['nomeRistorante'] = nomeRistorante
-
-    
-    console.log(item)
-    //this.navCtrl.push(RistDettPage)
-    this.navCtrl.push(PiattDettPage, { item:item});
+  apriDettaglio(item){
+    this.navCtrl.push(PiattDettPage, { item:item });
   }
 
   onLoad() {

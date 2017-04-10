@@ -62,6 +62,7 @@ export class CarrelloPage {
     this.carrello = this.af.database.list('/carrello/'+this.user.id);
 
 
+
     this.ordineList = this.carrello.map( itemList =>
         itemList.map( item => {
             this.carrelloPieno = true
@@ -76,7 +77,9 @@ export class CarrelloPage {
                     nomeRistorante: item.nomeRistorante,
                     inOfferta: item.inOfferta,
                     prezzoOfferta: item.prezzoOfferta,
-                    pronto:false
+                    pronto:false,
+                    consegnato:false,
+
                   };
             return result;
         })
@@ -135,9 +138,9 @@ export class CarrelloPage {
   ordina(radioValue, totale) {
      console.log(totale)
      if (radioValue == 'contanti'){
-            this.creaOrdine(OrdineContantiPage, totale)
+            this.creaOrdine(OrdineCartaPage, totale, 'contanti')
       } else if (radioValue == 'carta'){
-            this.creaOrdine(OrdineCartaPage, totale)
+            this.creaOrdine(OrdineCartaPage, totale, 'carta')
       } else {
           let alert = this.alertCtrl.create({
             title: 'Aggiungi un metodo di pagamento!',
@@ -150,21 +153,23 @@ export class CarrelloPage {
 
 
 
-  creaOrdine(Page, totale){
+  creaOrdine(Page, totale, pagamento){
          let idOrdine = ''
          var data = Math.floor(Date.now() / 1000)
          let pagato = false;
          let stato = 0;
 
          // inizia lo staorege dell'ordine
-         this.af.database.list('/ordini/'+this.user.id).push({
+         this.af.database.list('/ordini/').push({
+                                               idCliente: this.user.id,
                                                stato:stato,
                                                data:data,
                                                totale:totale,
-                                               pagato:pagato
+                                               pagato:pagato,
+                                               pagamento:pagamento
                           
           }).then((ordine) => {
-               this.carrello.subscribe(snapshots => {
+              this.carrello.subscribe(snapshots => {
                     snapshots.forEach(snapshot => {
                         let chiave = snapshot.$key
                         let valore = snapshot
@@ -172,13 +177,16 @@ export class CarrelloPage {
                        
                         console.log(valore)
                         console.log(idRistorante)
+                        let finale = {}
+                        valore['idCliente'] = this.user.id
+                        valore['idOrdine'] = ordine.key
+                        valore['idPiatto'] = chiave
+                        valore['data'] = data
 
-                        //let idRistorante = valore['idRistorante']
-
-                        this.af.database.object('/ordini/'+this.user.id+'/'+ordine.key+'/ordine/'+idRistorante+'/'+chiave).set(valore)
+                        this.af.database.list('ordiniRistoranti/').push(valore)
                     })
                }).unsubscribe()
-               this.navCtrl.push(Page, {totale:totale, idCliente:this.user.id, idOrdine:ordine.key, data:data});     
+               this.navCtrl.push(Page, {totale:totale, idCliente:this.user.id, idOrdine:ordine.key, data:data, pagamento:pagamento});     
           })
   }
 

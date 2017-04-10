@@ -53,6 +53,7 @@ export class PiattDettPage {
                           prezzoOfferta:item.prezzoOfferta,
                           inOfferta:item.inOfferta,
                           pronto:false,
+                          ritirato:false,
                         }).then((item) => { console.log(item.key); });          
           this.navCtrl.setRoot(CarrelloPage)
     } else {

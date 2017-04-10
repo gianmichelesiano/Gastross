@@ -12,7 +12,7 @@
 
 
 <ion-content *ngIf="!(ordineList | async)?.length>0">
-<h3>Carrello Vuoto</h3>
+<h3></h3>
 </ion-content>
 
 <ion-content *ngIf="(ordineList | async)?.length>0"> 
@@ -30,7 +30,7 @@
         <ion-badge *ngIf="item.inOfferta" color="secondary">Offerta</ion-badge>
         <h2>{{item.nomePiatto}}</h2>
         <p *ngIf="!item.inOfferta">{{item.prezzo| number : '1.2-2'}} CHF</p>
-        <del *ngIf="item.inOfferta">{{item.prezzo| number : '1.2-2'}} CHF</del>
+        <del *ngIf="item.inOfferta" style="color:red;">{{item.prezzo| number : '1.2-2'}} CHF</del>
         <p *ngIf="item.inOfferta">{{item.prezzoOfferta| number : '1.2-2'}} CHF</p>
         <p>{{item.quantity| number: '.2'}}</p>
         

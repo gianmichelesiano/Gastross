@@ -14,15 +14,17 @@
 <ion-content>
 
 <ion-list>
-  <ion-item *ngFor = "let item of ristoranteList | async">
+  <ion-item *ngFor = "let item of ristoranteList | async" (click)="apriDettaglio(item)">
     <ion-thumbnail item-left>
       <ion-spinner *ngIf="loading"></ion-spinner>
       <img [hidden]="loading" (load)="onLoad()" [src]="item.downloadURL | async" />
     </ion-thumbnail>
     <h2>{{item.nome}}</h2>
     <p>{{item.indirizzo}}</p>
-    <button ion-button clear item-right (click)="apriDettaglio(item)">View</button>
+    <button ion-button clear item-right (click)="apriDettaglio(item)"><ion-icon name="arrow-round-forward"></ion-icon></button>
   </ion-item>
 </ion-list>
+
+
 
 </ion-content>

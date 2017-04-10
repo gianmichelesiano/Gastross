@@ -23,6 +23,7 @@ export class OrdineCartaPage {
   idCliente: string
   idOrdine: string
   data: string
+  pagamento: string
 
   informazioni : FirebaseObjectObservable<any>;
   ordine : FirebaseObjectObservable<any>;
@@ -36,12 +37,13 @@ export class OrdineCartaPage {
     this.idCliente = navParams.get('idCliente')
     this.idOrdine = navParams.get('idOrdine')
     this.data = navParams.get('data')
+    this.pagamento = navParams.get('pagamento')
     this.dataPagamento = Math.floor(Date.now() / 1000)
     console.log('--------------')
-    console.log(this.idOrdine)
+    console.log(this.pagamento)
 
     this.informazioni = this.af.database.object('clienti/'+this.idCliente+'/datiPersonali/');
-    console.log('clienti/'+this.idCliente+'/datiPersonali/')
+
 
 
   }
@@ -53,24 +55,22 @@ export class OrdineCartaPage {
   pagaOrdine(indirizzo){
 
     
-  	this.ordine = this.af.database.object('ordini/'+this.idCliente+'/'+this.idOrdine);
+  	this.ordine = this.af.database.object('ordini/'+this.idOrdine);
   	//this.ordine.update({indirizzoSpedizione:indirizzo, pagato:true})
-    
-    this.updateIndirizzoPagato(indirizzo)
-    
 
-    
-    let loader = this.loadingCtrl.create({
-    content: "Attendere l'esito della transazione..."
-    });
-    loader.present();
-    setTimeout(() => {
-             loader.dismissAll()
-    }, 2000);
+    if (indirizzo != ''){
+      this.updateIndirizzoPagato(indirizzo)
+    } else {
+      console.log("inserire indirizzo")
+      let toast = this.toastCtrl.create({
+          message: 'Inserire un indirizzo',
+          duration: 2000,
+          position: 'down'
+      });
+      toast.present();
 
-    this.af.database.list('/carrello/').remove(this.user.id)
+    }
 
-    this.navCtrl.setRoot(OrdListPage)
   }
 
   updateIndirizzoPagato(indirizzo){
@@ -79,13 +79,25 @@ export class OrdineCartaPage {
             let longitude = result.results[0].geometry.location.lng;
             console.log(latitude)
             console.log(longitude)
-            this.ordine.update({indirizzoSpedizione:indirizzo, pagato:true, lat:latitude, lon:longitude}).then(()=>{
-                this.creaOrdine()
-            })
+            this.ordine.update({indirizzoSpedizione:indirizzo, pagato:true, lat:latitude, lon:longitude})
+            
       })
+
+      let loader = this.loadingCtrl.create({
+      content: "Attendere l'esito della transazione..."
+      });
+      loader.present();
+      setTimeout(() => {
+               loader.dismissAll()
+      }, 2000);
+
+      this.af.database.list('/carrello/').remove(this.user.id)
+      this.navCtrl.setRoot(OrdListPage)
+
+
   }
 
-  creaOrdine(){
+/*  creaOrdine(){
     this.ordineList = this.af.database.list('ordini/'+this.idCliente+'/'+this.idOrdine+'/ordine/')
     this.ordineList.subscribe(snapshots => {
         snapshots.forEach(snapshot => {
@@ -102,7 +114,7 @@ export class OrdineCartaPage {
             this.af.database.object('/comande/'+idRistorante+'/'+this.idOrdine).set(comanda)
         });
     }).unsubscribe()
-  }
+  }*/
 
 }
  

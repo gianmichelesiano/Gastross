@@ -15,7 +15,7 @@
 
 
 <ion-list>
-  <ion-item *ngFor = "let item of listaOfferte">
+  <ion-item *ngFor = "let item of offerteList  | async ">
     
     <ion-thumbnail item-left>
       <ion-spinner *ngIf="loading"></ion-spinner>
@@ -23,12 +23,12 @@
     </ion-thumbnail>
 
     <ion-badge  color="secondary">Offerta</ion-badge>
-    <h2>{{item.piatto.nomePiatto}}</h2>
-    <h2>{{item.nomeRistorante}}</h2>
-    <del>{{item.piatto.prezzo | number : '1.2-2'}} CHF</del>
-    <h2>{{item.piatto.prezzoOfferta | number : '1.2-2'}}</h2>
-    <p>Scade il: {{item.piatto.dataScadenza | date}}</p>
-    <button ion-button clear item-right (click)="apriDettaglio(item.piatto, item.downloadURL, item.idRistorante, item.nomeRistorante)">Dettaglio</button>
+    <h2>{{item.nomePiatto}}</h2>
+    <p>{{item.nomeRistorante}}</p>
+    <del style="color:red;">{{item.prezzo | number : '1.2-2'}} CHF</del>
+    <h2>{{item.prezzoOfferta | number : '1.2-2'}} CHF</h2>
+    <p>Scade il: {{item.dataScadenza | date}}</p>
+    <button ion-button clear item-right (click)="apriDettaglio(item)">Dettaglio</button>
   </ion-item>
 </ion-list>
 

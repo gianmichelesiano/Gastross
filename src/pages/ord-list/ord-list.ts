@@ -17,13 +17,22 @@ export class OrdListPage {
   ordini: FirebaseListObservable<any>;
   constructor(public af: AngularFire, public user: User, public navCtrl: NavController, public navParams: NavParams) {
 
-  	this.ordini = this.af.database.list('/ordini/'+this.user.id ).
-            map((array) => array.reverse()) as FirebaseListObservable<any[]>;
-   }
+/*   this.ordini = this.af.database.list('/ordini/'+this.user.id ).
+            map((array) => array.reverse()) as FirebaseListObservable<any[]>;*/
 
-  apriDettaglioOrdine(ordine, idOrdine){
+     this.ordini = this.af.database.list('/ordini/', {
+                      query: {
+                        orderByChild: 'idCliente',
+                        equalTo: this.user.id
+                      }
+                    });
+
+    }
+
+  apriDettaglioOrdine(idOrdine){
     console.log(idOrdine)
-  	this.navCtrl.push(OrdDettPage,  { ordine:ordine, idOrdine:idOrdine });
+
+  	this.navCtrl.push(OrdDettPage,  { idOrdine:idOrdine});
   }
 
   ionViewDidLoad() {

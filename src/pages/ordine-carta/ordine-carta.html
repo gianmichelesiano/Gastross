@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Pagamento Carta</ion-title>
+    <ion-title>Pagamento</ion-title>
     <button  ion-button menuToggle="right" end>
       <ion-icon name="options"></ion-icon>
     </button>
@@ -35,22 +35,22 @@
   </ion-item>
 
 
-  <ion-item>
+  <ion-item >
   <ion-label stacked color="primary">Indirizzo di spedizione</ion-label>
    <ion-input type="text" #indirizzo [value]="(informazioni | async)?.indirizzo"></ion-input>
   </ion-item>
 
-  <ion-item>
+  <ion-item *ngIf="pagamento == 'carta'">
   <ion-label stacked color="primary" required>Numero di carta</ion-label>
     <ion-input type="number" #numeroCarta [value]=""></ion-input>
   </ion-item>
 
-    <ion-item>
+  <ion-item *ngIf="pagamento == 'carta'">
   <ion-label stacked color="primary" required>Scadenza</ion-label>
     <ion-input type="text" #scadenza [value]=""></ion-input>
   </ion-item>
 
-  <ion-item>
+  <ion-item *ngIf="pagamento == 'carta'">
   <ion-label stacked color="primary" required>CPV</ion-label>
     <ion-input type="text" #CPV [value]=""></ion-input>
   </ion-item>
