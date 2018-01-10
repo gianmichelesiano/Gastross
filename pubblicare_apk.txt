@@ -11,3 +11,4 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore Gastross.keysto
 
 C:\Users\gianmichele\AppData\Local\Android\sdk\build-tools\25.0.2\zipalign.exe 4 Gastross.apk GastrossAll.apk
 
+test git
