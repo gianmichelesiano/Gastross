@@ -32,7 +32,11 @@ import { OrdineCartaPage } from '../pages/ordine-carta/ordine-carta';
 
 import { Http} from '@angular/http';
 import { TranslateModule, TranslateStaticLoader, TranslateLoader  } from 'ng2-translate/ng2-translate';
+import { Storage } from '@ionic/storage';
 
+export function provideStorage() {
+  return new Storage(['sqlite', 'websql', 'indexeddb'], { name: 'bandigare' });
+}
 
 const cloudSettings: CloudSettings = { 
   'core': {
@@ -119,7 +123,8 @@ export const firebaseConfig = {
   ],
   providers: [
               {provide: ErrorHandler, useClass: IonicErrorHandler},
-              { provide: LOCALE_ID, useValue: "it-IT" }
+              { provide: LOCALE_ID, useValue: "it-IT" },
+              { provide: Storage, useFactory: provideStorage }
              ]
 })
 export class AppModule {}

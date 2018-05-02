@@ -1,6 +1,8 @@
 {
   "name": "Gastross",
   "app_id": "0ab63964",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }

@@ -20,8 +20,9 @@
     "@angular/platform-browser-dynamic": "2.4.8",
     "@angular/platform-server": "2.4.8",
     "@ionic/cloud-angular": "^0.11.0",
-    "@ionic/storage": "2.0.0",
+    "@ionic/storage": "1.1.7",
     "angularfire2": "^2.0.0-beta.8",
+    "cordova-sqlite-storage": "^2.3.1",
     "firebase": "^3.7.1",
     "ionic-angular": "2.2.0",
     "ionic-image-loader": "^1.6.0",
@@ -48,5 +49,10 @@
     "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [],
-  "description": "Gastross: An Ionic project"
+  "description": "Gastross: An Ionic project",
+  "cordova": {
+    "plugins": {
+      "cordova-sqlite-storage": {}
+    }
+  }
 }

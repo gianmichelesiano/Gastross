@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Auth} from '@ionic/cloud-angular';
 import { LoginPage } from '../login/login';
-
+import firebase from 'firebase';
+import { Storage } from '@ionic/storage';
 /*
   Generated class for the Logout page.
 
@@ -15,10 +16,15 @@ import { LoginPage } from '../login/login';
 })
 export class LogoutPage {
 
+  public fireAuth: any;
+  constructor(public storage: Storage, public navCtrl: NavController, public navParams: NavParams, public auth:Auth,) {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public auth:Auth,) {
-	  	this.auth.logout();
-	    this.navCtrl.setRoot(LoginPage);
+      this.storage.set('email', null);
+      this.storage.set('password', null);
+      this.fireAuth = firebase.auth();
+      this.auth.logout();
+      this.navCtrl.setRoot(LoginPage);
+
   }
 
   ionViewDidLoad() {
